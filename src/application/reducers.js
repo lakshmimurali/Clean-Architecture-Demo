@@ -1,30 +1,26 @@
 // application/reducers.js
 import { ADD_TODO, TOGGLE_TODO } from './actions';
 import { loadTodos, saveTodos } from '../infrastructure/localStorage';
+import TodoService from '../domain/todoService'; // Import the domain service
+
+// ...
 
 const initialState = {
   todos: loadTodos(),
 };
 
 const todoReducer = (state = initialState, action) => {
+  const todoService = new TodoService(); // Create an instance of the domain service
+
   switch (action.type) {
     case ADD_TODO:
-      const newTodo = {
-        id: Date.now(),
-        text: action.payload,
-        completed: false,
-      };
-      const updatedTodos = [...state.todos, newTodo];
-      saveTodos(updatedTodos);
-      return { todos: updatedTodos };
+      const newTodo = todoService.add(action.payload);
+    // ...
 
     case TOGGLE_TODO:
       const toggledId = action.payload;
-      const updatedTodosToggled = state.todos.map((todo) =>
-        todo.id === toggledId ? { ...todo, completed: !todo.completed } : todo
-      );
-      saveTodos(updatedTodosToggled);
-      return { todos: updatedTodosToggled };
+      const toggledTodo = todoService.toggle(toggledId);
+    // ...
 
     default:
       return state;
