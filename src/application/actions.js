@@ -1,9 +1,5 @@
 // application/actions.js
 import TodoService from '../domain/todoService'; // Import the domain service
-import { useSelector, useDispatch } from 'react-redux';
-// ...
-
-const dispatch = useDispatch();
 
 export const ADD_TODO = 'ADD_TODO';
 export const TOGGLE_TODO = 'TOGGLE_TODO';
